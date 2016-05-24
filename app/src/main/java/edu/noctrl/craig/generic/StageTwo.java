@@ -32,7 +32,10 @@ public class StageTwo extends World {
 
 
         //If touching to the right of the camel, then spit at the enemies
-        if ((action == MotionEvent.ACTION_DOWN) && (event.getX() > (cam2.getWidth() * 2.5)))
+        //if cam2.position.X < event.getX() &&  < cam2.width
+        // && cam.position.Y > event.getY() && < cam.position.Y - cam2.height
+     //   if ((action == MotionEvent.ACTION_DOWN) && (event.getX() > (cam2.getWidth() * 2.5)))
+        if ((action == MotionEvent.ACTION_DOWN) && shootEvent(event))
         {
             fireSpit(event);
             return true;
@@ -116,6 +119,20 @@ public class StageTwo extends World {
         {
             this.listener.onWinGame(true); //do we want an infinite game?
         }
+    }
+
+    private boolean shootEvent(MotionEvent event)
+    {
+        boolean shoot =true;
+        float camWidth = cam2.getWidth();
+        float camHeight =cam2.getHeight();
+
+        //user is touching camel
+        if(cam2.position.X - camWidth/2 <= event.getX() && ((cam2.position.X + camWidth/2) >= event.getX())
+        && (cam2.position.Y - camHeight/2 <= event.getY()) && ((cam2.position.Y + camHeight/2) >= event.getY()))
+        shoot = false;
+
+        return shoot;
     }
 
 }
